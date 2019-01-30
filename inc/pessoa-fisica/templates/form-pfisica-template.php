@@ -31,9 +31,18 @@ function registration_form_fisica(
     $temas_de_interesse_,
     $li_e_aceito_o_termo_de_adesao) {
 
-    $instituicoes = get_users(array('role' => 'editor'));
+    $instituicoes_query = get_users(array('role' => 'editor'));
+
+    $instituicoes = [];
+    foreach($instituicoes_query as $i) {
+      array_push($instituicoes, $i->display_name);
+    }
+    array_unshift($instituicoes, 'Não Possui');
+
+
     $paises = $GLOBALS['paises'];
     $escolaridade = $GLOBALS['escolaridade'];
+    $areas_conhecimento = $GLOBALS['areas_conhecimento'];
 
      echo '
         <style>
@@ -100,20 +109,25 @@ function registration_form_fisica(
           <div class="col-md-6">
             <div class="form-group">
               <label for="data_de_nascimento">Data de Nascimento <strong>*</strong></label>
-              <input type="date" name="data_de_nascimento" class="form-control" value="' . ( isset( $_POST['data_de_nascimento']) ? $cpf : null ) . '">
+              <input type="date" name="data_de_nascimento" class="form-control" value="' . ( isset( $_POST['data_de_nascimento']) ? $data_de_nascimento : null ) . '">
             </div>
           </div>
 
           <div class="col-md-12">
             <div class="form-group">
               <label for="pais_de_nascimento">País de Nascimento <strong>*</strong></label>
-              <select class="form-control" name="pais_de_nascimento" id="pais_de_nascimento">
-                <option value="Brasil" selected>Brasil</option>';
+              <select class="form-control" name="pais_de_nascimento" id="pais_de_nascimento">';
+
+              if(isset( $_POST['pais_de_nascimento'])) {
+                $pais_de_nascimento = $_POST['pais_de_nascimento'];
+              }
 
                 foreach($paises as $c) {
-                  if($c != 'Brasil') {
-                    echo '<option value="' .$c. '">' .$c. '</option>';
-                  }
+                    echo '<option value="' .$c. '"';
+                    if($pais_de_nascimento == $c) {
+                    echo 'selected';
+                    }
+                    echo '>' .$c. '</option>';
                 }
 
                 echo '</select>
@@ -144,14 +158,19 @@ function registration_form_fisica(
           <div class="col-md-12">
             <div class="form-group">
               <label for="pais_de_residencia">País de Residencia <strong>*</strong></label>
-              <select class="form-control" name="pais_de_residencia" id="pais_de_residencia">
-              <option value="Brasil" selected>Brasil</option>';
+              <select class="form-control" name="pais_de_residencia" id="pais_de_residencia">';
 
-              foreach($paises as $c) {
-                if($c != 'Brasil') {
-                  echo '<option value="' .$c. '">' .$c. '</option>';
-                }
+              if(isset( $_POST['pais_de_residencia'])) {
+                $pais_de_residencia = $_POST['pais_de_residencia'];
               }
+
+                foreach($paises as $c) {
+                    echo '<option value="' .$c. '"';
+                    if($pais_de_residencia == $c) {
+                    echo 'selected';
+                    }
+                    echo '>' .$c. '</option>';
+                }
 
               echo '</select>
                   </select>
@@ -201,9 +220,17 @@ function registration_form_fisica(
               <label for="vinculo_institucional">Vínculo Institucional <strong>*</strong></label>
               <select data-placeholder="Selecione uma instituição" name="vinculo_institucional" class="chosen-select form-control" id="vinculo_institucional">
               ';
-              
+
+              if(isset( $_POST['vinculo_institucional'])) {
+                $vinculo_institucional = $_POST['vinculo_institucional'];
+              }
+
               foreach($instituicoes as $user) {
-                  echo '<option value="' .$user->display_name . '"> ' .$user->display_name . '</option>';
+                    echo '<option value="' .$user. '"';
+                    if($vinculo_institucional == $user) {
+                    echo 'selected';
+                    }
+                    echo '>' .$user. '</option>';
               }
 
               echo '
@@ -213,26 +240,26 @@ function registration_form_fisica(
 
           <div class="col-md-6">
             <div class="form-group">
-              <label for="departamento">Departamento <strong>*</strong></label>
+              <label for="departamento">Departamento</label>
               <input type="text" class="form-control" name="departamento" value="' . ( isset( $_POST['departamento']) ? $departamento : null ) . '">
             </div>
           </div>
 
           <div class="col-md-6">
             <div class="form-group">
-              <label for="cargofuncao">Cargo / Função <strong>*</strong></label>
+              <label for="cargofuncao">Cargo / Função</label>
               <input type="text" class="form-control" name="cargofuncao" value="' . ( isset( $_POST['cargofuncao']) ? $cargofuncao : null ) . '">
             </div>
           </div>
           <div class="col-md-7">
             <div class="form-group">
-              <label for="telefone">Telefone <strong>*</strong></label>
+              <label for="telefone">Telefone</label>
               <input type="text" class="form-control" name="telefone" value="' . ( isset( $_POST['telefone']) ? $telefone : null ) . '">
             </div>
           </div>
           <div class="col-md-5">
             <div class="form-group">
-              <label for="ramal">Ramal <strong>*</strong></label>
+              <label for="ramal">Ramal</label>
               <input type="text" class="form-control" name="ramal" value="' . ( isset( $_POST['ramal']) ? $ramal : null ) . '">
             </div>
           </div>
@@ -242,97 +269,73 @@ function registration_form_fisica(
               <label for="formacao_academica">Formação Academica <strong>*</strong></label>
               <select name="formacao_academica" class="form-control" id="formacao_academica">';
 
+              if(isset( $_POST['formacao_academica'])) {
+                $formacao_academica = $_POST['formacao_academica'];
+              }
+
               foreach($escolaridade as $e) {
-                echo '<option value="' .$e. '">' .$e. '</option>';
+                    echo '<option value="' .$e. '"';
+                    if($formacao_academica == $e) {
+                    echo 'selected';
+                    }
+                    echo '>' .$e. '</option>';
               }
                 
               echo '</select>
             </div>
           </div>
           <div class="col-md-3 align-self-md-end">
-            <div class="form-group">
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="formacao_tipo" id="Incompleto" value="Incompleto">
-                <label class="form-check-label" for="Incompleto">Incompleto</label>
+            <div class="form-group">';
+
+            if(isset( $_POST['formacao_tipo'])) {
+              $formacao_tipo = $_POST['formacao_tipo'];
+            }
+
+            echo '<div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="formacao_tipo" id="Incompleto" value="Incompleto"';
+
+                if($formacao_tipo == 'Incompleto') {
+                  echo 'checked';
+                }
+
+                echo '><label class="form-check-label" for="Incompleto">Incompleto</label>
               </div>
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="formacao_tipo" id="Completo" value="Completo">
-                <label class="form-check-label" for="Completo">Completo</label>
+                <input class="form-check-input" type="radio" name="formacao_tipo" id="Completo" value="Completo"';
+
+                if($formacao_tipo == 'Completo') {
+                  echo 'checked';
+                }
+                
+               echo '<label class="form-check-label" for="Completo">Completo</label>
               </div>
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
-              <label for="areas_do_conhecimento">Áreas do conhecimento <strong>*</strong></label>
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="areas_do_conhecimento[]" value="Ciências Exatas e da Terra">
-                <label class="form-check-label" for="areas_do_conhecimento">
-                  Ciências Exatas e da Terra
-                </label>
-              </div>
+              <label for="areas_do_conhecimento">Áreas do Conhecimento <strong>*</strong></label>
+              <div style="max-height: 240px;
+              overflow-x: auto;">';
 
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="areas_do_conhecimento[]" value="Ciências Biológicas">
-                <label class="form-check-label" for="areas_do_conhecimento">
-                  Ciências Biológicas
-                </label>
-              </div>
-
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="areas_do_conhecimento[]" value="Engenharias">
-                <label class="form-check-label" for="areas_do_conhecimento">
-                  Engenharias
-                </label>
-              </div>
-
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="areas_do_conhecimento[]" value="Ciências da Saúde">
-                <label class="form-check-label" for="areas_do_conhecimento">
-                  Ciências da Saúde
-                </label>
-              </div>
-
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="areas_do_conhecimento[]" value="Ciências Agrárias">
-                <label class="form-check-label" for="areas_do_conhecimento">
-                  Ciências Agrárias
-                </label>
-              </div>
-
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="areas_do_conhecimento[]" value="Ciências Sociais Aplicadas">
-                <label class="form-check-label" for="areas_do_conhecimento">
-                  Ciências Sociais Aplicadas
-                </label>
-              </div>
-
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="areas_do_conhecimento[]" value="Ciências Humanas">
-                <label class="form-check-label" for="areas_do_conhecimento">
-                  Ciências Humanas
-                </label>
-              </div>
-
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="areas_do_conhecimento[]" value="Linguística, Letras e Artes">
-                <label class="form-check-label" for="areas_do_conhecimento">
-                  Linguística, Letras e Artes
-                </label>
-              </div>
-
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="areas_do_conhecimento[]" value="Pós Graduação">
-                <label class="form-check-label" for="areas_do_conhecimento">
-                  Pós Graduação
-                </label>
-              </div>
-
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="areas_do_conhecimento[]" value="Outros">
-                <label class="form-check-label" for="areas_do_conhecimento">
-                  Outros
-                </label>
-              </div>
+              if(isset( $_POST['areas_do_conhecimento'])) {
+                $areas_do_conhecimento = $_POST['areas_do_conhecimento'];
+              }
+    
+              foreach( $areas_conhecimento as $a )
+              {
+                  echo '<div class="form-check">';
+                  echo '<input class="form-check-input" type="checkbox" name="areas_do_conhecimento[]" value="'. $a .'"';
+                  if (in_array($a, $areas_do_conhecimento)) {
+                    echo 'checked';
+                  }
+                  echo '><label class="form-check-label" for="areas_do_conhecimento">';
+                  echo $a;
+                  echo '</label>';
+                  echo '</div>';  
+              }
+              
+            echo '
+            </div>
             </div>
           </div>
           <div class="col-md-6">
@@ -341,24 +344,29 @@ function registration_form_fisica(
               <div style="max-height: 240px;
               overflow-x: auto;">';
 
-              $terms = get_terms(array(
+                $terms = get_terms(array(
                 'taxonomy' => 'category',
                 'hide_empty' => false,
                 ));
                 $names = wp_list_pluck( $terms, 'name' );
                 $slug = wp_list_pluck( $terms, 'slug' );
-                $index = 0;
+
+                if(isset( $_POST['temas_de_interesse_'])) {
+                  $temas_de_interesse_ = $_POST['temas_de_interesse_'];
+                }
     
                 foreach( $names as $v )
                 {
                     echo '<div class="form-check">';
-                    echo '<input class="form-check-input" type="checkbox" name="temas_de_interesse_[]" value="'. $v .'">';
-                    echo '<label class="form-check-label" for="temas_de_interesse_">';
+                    echo '<input class="form-check-input" type="checkbox" name="temas_de_interesse_[]" value="'. $v .'"';
+                    if (in_array($v, $temas_de_interesse_)) {
+                      echo 'checked';
+                    }
+                    echo '><label class="form-check-label" for="temas_de_interesse_">';
                     echo $v;
                     echo '</label>';
                     echo '</div>';
     
-                    $index++;                    
                 }
               
             echo '
@@ -369,8 +377,13 @@ function registration_form_fisica(
           <div class="col-md-12">
             <div class="form-group">
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="li_e_aceito_o_termo_de_adesao" value="true">
-                <label for="li_e_aceito_o_termo_de_adesao">Li e aceito o <strong><a target="_blank" href="'. site_url() .'/institucional/termo-de-adesao/">termo de adesão</a>  *</strong></label>
+                <input class="form-check-input" type="checkbox" name="li_e_aceito_o_termo_de_adesao" value="true"';
+
+                if(isset( $_POST['li_e_aceito_o_termo_de_adesao'])) {
+                  echo 'checked';
+                }
+
+                echo '><label for="li_e_aceito_o_termo_de_adesao">Li e aceito o <strong><a target="_blank" href="'. site_url() .'/institucional/termo-de-adesao/">termo de adesão</a>  *</strong></label>
               </div>              
             </div>
           </div>

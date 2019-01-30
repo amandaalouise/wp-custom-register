@@ -32,36 +32,92 @@ function registration_validation_juridica(
     global $reg_errors;
     $reg_errors = new WP_Error;
 
-if ( 
-    empty($username) ||
-    empty($password) || 
-    empty($email) || 
-    empty($first_name) || 
-    empty($responsavel_nome_completo_do_responsavel) || 
-    empty($responsavel_email_do_responsavel) ||
-    empty($responsavel_celular_do_responsavel) ||
-    empty($responsavel_telefone_fixo_do_responsavel) ||
-    empty($responsavel_substituto_nome_completo_do_responsavel) ||
-    empty($responsavel_substituto_email_do_responsavel) ||
-    empty($responsavel_substituto_celular_do_responsavel) ||
-    empty($responsavel_substituto_telefone_fixo_do_responsavel) || 
-    empty($cnpj) || 
-    empty($cep) ||
-    empty($logradouro) ||
-    empty($numero) || 
-    empty($bairro) || 
-    empty($cidade) || 
-    empty($estado) ||
-    empty($tipo_de_instituicao) || 
-    empty($perfil_institucional) || 
-    empty($tamanho_da_empresa) ||
-    empty($possui_ambientes_ou_grupos_voltados_a_pesquisa_e_inovacao) || 
-    empty($temas_de_interesse_) ||
-    empty($li_e_aceito_o_termo_de_adesao)
-    )  
-    {
-    
-    $reg_errors->add( 'field', 'Campo obrigatório, favor preencher.' );
+if (empty($password)) {    
+    $reg_errors->add( 'field', 'Senha: Campo obrigatório, favor preencher.' );
+}
+
+if (empty( $username )) {    
+    $reg_errors->add( 'field', 'Nome de Usuário: Campo obrigatório, favor preencher.' );
+}
+
+if (empty( $email )) {    
+    $reg_errors->add( 'field', 'Email: Campo obrigatório, favor preencher.' );
+}
+
+if (empty( $first_name )) {    
+    $reg_errors->add( 'field', 'Nome Fantasia: Campo obrigatório, favor preencher.' );
+}
+
+if (empty( $responsavel_nome_completo_do_responsavel )) {    
+    $reg_errors->add( 'field', 'Nome do Responsável: Campo obrigatório, favor preencher.' );
+}
+
+if (empty( $responsavel_email_do_responsavel )) {    
+    $reg_errors->add( 'field', 'Email do Responsável: Campo obrigatório, favor preencher.' );
+}
+
+if (empty( $responsavel_celular_do_responsavel )) {    
+    $reg_errors->add( 'field', 'Celular do Responsável: Campo obrigatório, favor preencher.' );
+}
+
+if (empty( $responsavel_telefone_fixo_do_responsavel )) {    
+    $reg_errors->add( 'field', 'Telefone do Responsável: Campo obrigatório, favor preencher.' );
+}
+
+if(empty($cep)) {
+    $reg_errors->add( 'field', 'CEP: Campo obrigatório, favor preencher.' );
+}
+
+if(empty($logradouro)) {
+    $reg_errors->add( 'field', 'Logradouro: Campo obrigatório, favor preencher.' );
+}
+
+if(empty($numero)) {
+    $reg_errors->add( 'field', 'Número: Campo obrigatório, favor preencher.' );
+}
+
+if(empty($bairro)) {
+    $reg_errors->add( 'field', 'Bairro: Campo obrigatório, favor preencher.' );
+}
+
+if(empty($cidade)) {
+    $reg_errors->add( 'field', 'Cidade: Campo obrigatório, favor preencher.' );
+}
+
+if(empty($estado)) {
+    $reg_errors->add( 'field', 'Estado / UF: Campo obrigatório, favor preencher.' );
+}
+
+if (empty( $responsavel_substituto_email_do_responsavel )) {    
+    $reg_errors->add( 'field', 'Nome do Responsável Substituto: Campo obrigatório, favor preencher.' );
+}
+
+if (empty( $responsavel_substituto_email_do_responsavel )) {    
+    $reg_errors->add( 'field', 'Email do Responsável Substituto: Campo obrigatório, favor preencher.' );
+}
+
+if (empty( $responsavel_substituto_celular_do_responsavel )) {    
+    $reg_errors->add( 'field', 'Celular do Responsável Substituto: Campo obrigatório, favor preencher.' );
+}
+
+if (empty( $responsavel_substituto_telefone_fixo_do_responsavel )) {    
+    $reg_errors->add( 'field', 'Telefone do Responsável Substituto: Campo obrigatório, favor preencher.' );
+}
+
+if (empty( $cnpj )) {    
+    $reg_errors->add( 'field', 'CNPJ: Campo obrigatório, favor preencher.' );
+}
+
+if (empty( $possui_ambientes_ou_grupos_voltados_a_pesquisa_e_inovacao )) {    
+    $reg_errors->add( 'field', 'Possui ambientes ou grupos voltados a pesquisa e inovação: Campo obrigatório, favor preencher.' );
+}
+
+if (empty( $temas_de_interesse_ )) {    
+    $reg_errors->add( 'field', 'Temas de Interesse: Campo obrigatório, favor preencher.' );
+}
+
+if (empty( $li_e_aceito_o_termo_de_adesao )) {    
+    $reg_errors->add( 'field', 'Favor aceitar o termo de adesão.' );
 }
 
 if(!validaCNPJ($cnpj)) {

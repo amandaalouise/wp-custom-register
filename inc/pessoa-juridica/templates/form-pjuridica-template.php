@@ -206,8 +206,16 @@ function registration_form_juridica(
               <label for="tipo_de_instituicao">Tipo de instituição <strong>*</strong></label>
               <select class="chosen-select form-control chosen-select" name="tipo_de_instituicao" id="tipo_de_instituicao">';
 
-              foreach($GLOBALS['tipo_instituicao'] as $tp) {
-                echo '<option value="' .$tp. '">' .$tp. '</option>';
+              if(isset( $_POST['tipo_de_instituicao'])) {
+                $tipo_de_instituicao = $_POST['tipo_de_instituicao'];
+              }
+
+              foreach($GLOBALS['tipo_instituicao'] as $te) {
+                    echo '<option value="' .$te. '"';
+                    if($tipo_de_instituicao == $te) {
+                    echo 'selected';
+                    }
+                    echo '>' .$te. '</option>';
               }
                 
               echo '</select>
@@ -219,8 +227,16 @@ function registration_form_juridica(
               <label for="tamanho_da_empresa">Tamanho da empresa <strong>*</strong></label>
               <select name="tamanho_da_empresa" class="form-control chosen-select" id="tamanho_da_empresa">';
 
+              if(isset( $_POST['tamanho_da_empresa'])) {
+                $tamanho_da_empresa = $_POST['tamanho_da_empresa'];
+              }
+
               foreach($GLOBALS['tamanho_empresa'] as $te) {
-                echo '<option value="' .$te. '">' .$te. '</option>';
+                    echo '<option value="' .$te. '"';
+                    if($tamanho_da_empresa == $te) {
+                    echo 'selected';
+                    }
+                    echo '>' .$te. '</option>';
               }
                 
               echo '</select>
@@ -232,9 +248,17 @@ function registration_form_juridica(
             <div class="form-group">
               <label for="perfil_institucional">Perfil Institucional <strong>*</strong></label>
               <select name="perfil_institucional" class="form-control" id="perfil_institucional">';
-              
+
+              if(isset( $_POST['perfil_institucional'])) {
+                $perfil_institucional = $_POST['perfil_institucional'];
+              }
+
               foreach($GLOBALS['p_institucional'] as $te) {
-                echo '<option value="' .$te. '">' .$te. '</option>';
+                    echo '<option value="' .$te. '"';
+                    if($perfil_institucional == $te) {
+                    echo 'selected';
+                    }
+                    echo '>' .$te. '</option>';
               }
                 
               echo '</select>
@@ -245,14 +269,21 @@ function registration_form_juridica(
             <div class="form-group">
               <label for="possui_ambientes_ou_grupos_voltados_a_pesquisa_e_inovacao">Possui ambientes ou grupos voltados à pesquisa e inovação? <strong>*</strong></label>';
 
-              foreach($GLOBALS['ambientes'] as $amb) {
-                echo '<div class="form-check">';
-                echo '<input class="form-check-input" type="checkbox" name="possui_ambientes_ou_grupos_voltados_a_pesquisa_e_inovacao[]"';
-                echo 'value="' .$amb. '"';
-                echo '<label class="form-check-label" for="possui_ambientes_ou_grupos_voltados_a_pesquisa_e_inovacao">';
-                echo $amb;
-                echo '</label>';
-                echo '</div>';
+              if(isset( $_POST['possui_ambientes_ou_grupos_voltados_a_pesquisa_e_inovacao'])) {
+                $possui_ambientes_ou_grupos_voltados_a_pesquisa_e_inovacao = $_POST['possui_ambientes_ou_grupos_voltados_a_pesquisa_e_inovacao'];
+              }
+    
+              foreach( $GLOBALS['ambientes'] as $amb )
+              {
+                  echo '<div class="form-check">';
+                  echo '<input class="form-check-input" type="checkbox" name="possui_ambientes_ou_grupos_voltados_a_pesquisa_e_inovacao[]" value="'. $amb .'"';
+                  if (in_array($amb, $possui_ambientes_ou_grupos_voltados_a_pesquisa_e_inovacao)) {
+                    echo 'checked';
+                  }
+                  echo '><label class="form-check-label" for="possui_ambientes_ou_grupos_voltados_a_pesquisa_e_inovacao">';
+                  echo $amb;
+                  echo '</label>';
+                  echo '</div>';  
               }
               
               echo '
@@ -271,12 +302,19 @@ function registration_form_juridica(
                 ));
                 $names = wp_list_pluck( $terms, 'name' );
                 $slug = wp_list_pluck( $terms, 'slug' );
+
+                if(isset( $_POST['temas_de_interesse_'])) {
+                  $temas_de_interesse_ = $_POST['temas_de_interesse_'];
+                }
     
                 foreach( $names as $v )
                 {
                     echo '<div class="form-check">';
-                    echo '<input class="form-check-input" type="checkbox" name="temas_de_interesse_[]" value="'. $v .'">';
-                    echo '<label class="form-check-label" for="temas_de_interesse_">';
+                    echo '<input class="form-check-input" type="checkbox" name="temas_de_interesse_[]" value="'. $v .'"';
+                    if (in_array($v, $temas_de_interesse_)) {
+                      echo 'checked';
+                    }
+                    echo '><label class="form-check-label" for="temas_de_interesse_">';
                     echo $v;
                     echo '</label>';
                     echo '</div>';
@@ -291,8 +329,12 @@ function registration_form_juridica(
           <div class="col-md-12">
           <div class="form-group">
           <div class="form-check">
-              <input class="form-check-input" type="checkbox" name="li_e_aceito_o_termo_de_adesao" value="true">
-              <label for="li_e_aceito_o_termo_de_adesao">Li e aceito o <strong><a target="_blank" href="'. site_url() .'/institucional/termo-de-adesao/">termo de adesão</a>  *</strong></label>
+              <input class="form-check-input" type="checkbox" name="li_e_aceito_o_termo_de_adesao" value="true"';
+              if(isset( $_POST['li_e_aceito_o_termo_de_adesao'])) {
+                echo 'checked';
+              }
+
+              echo '><label for="li_e_aceito_o_termo_de_adesao">Li e aceito o <strong><a target="_blank" href="'. site_url() .'/institucional/termo-de-adesao/">termo de adesão</a>  *</strong></label>
             </div>              
           </div>
         </div>

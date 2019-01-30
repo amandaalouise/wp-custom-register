@@ -9,7 +9,15 @@ function my_custom_user_profile_field( $user ) {
     $user_roles = $user_meta->roles;
     $paises = $GLOBALS['paises'];
     $escolaridade = $GLOBALS['escolaridade'];
-    $instituicoes = get_users(array('role' => 'editor'));
+
+    $instituicoes_query = get_users(array('role' => 'editor'));
+
+    $instituicoes = [];
+    foreach($instituicoes_query as $i) {
+      array_push($instituicoes, $i->display_name);
+    }
+    array_unshift($instituicoes, 'Não Possui');
+
 
     $tp_instituicao = $GLOBALS['tipo_instituicao'];
     $tm_empresa = $GLOBALS['tamanho_empresa'];
@@ -171,14 +179,14 @@ function my_custom_user_profile_field( $user ) {
                 ?>
 
                 <option value="<?php echo $user->display_name ?>" <?php if
-                    (get_the_author_meta('vinculo_institucional', $user_id)==$user->display_name)
+                    (get_the_author_meta('vinculo_institucional', $user_id)==$user)
                     {
                     echo 'selected';
                     } ?>
 
                     >
 
-                    <?php echo $user->display_name ?>
+                    <?php echo $user ?>
                 </option>
 
                 <?php
@@ -257,8 +265,7 @@ function my_custom_user_profile_field( $user ) {
         <td>
             <?php
 
-        $nomeAreas = ['Ciências Exatas e da Terra', 'Ciências Biológicas', 'Engenharias', 'Ciências da Saúde', 'Ciências Agrárias', 'Ciências Sociais Aplicadas', 'Ciências Humanas',
-        'Linguística, Letras e Artes', 'Pós Graduação', 'Outros'];
+        $nomeAreas = $GLOBALS['areas_conhecimento'];
         $checkedItems = get_the_author_meta( 'areas_do_conhecimento', $user_id );
 
         foreach( $nomeAreas as $v )

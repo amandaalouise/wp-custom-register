@@ -33,18 +33,82 @@ function registration_validation_fisica(
     global $reg_errors;
     $reg_errors = new WP_Error;
 
-if ( empty( $username ) || empty( $password ) || empty( $email ) || empty($first_name) || 
-    empty($last_name) || empty($cpf) || empty($data_de_nascimento) || empty($pais_de_nascimento) ||
-    empty($celular_) || empty($telefone_fixo) || empty($pais_de_residencia) ||
-    empty($cep) || empty($logradouro) || empty($numero) || empty($bairro) || empty($cidade) || empty($estado) ||
-    empty($vinculo_institucional) || empty($departamento) || empty($cargofuncao) || empty($telefone) || empty($ramal) ||
-    empty($formacao_academica) || empty($formacao_tipo) || empty($areas_do_conhecimento) || empty($temas_de_interesse_) ||
-    empty($li_e_aceito_o_termo_de_adesao)
-    )  
-    {
-    
-    $reg_errors->add( 'field', 'Campo obrigatório, favor preencher.' );
+if (empty( $username )) {    
+    $reg_errors->add( 'field', 'Nome de Usuário: Campo obrigatório, favor preencher.' );
 }
+
+if(empty($password)) {
+    $reg_errors->add( 'field', 'Senha: Campo obrigatório, favor preencher.' );
+}
+
+if(empty($email)) {
+    $reg_errors->add( 'field', 'Email: Campo obrigatório, favor preencher.' );
+}
+
+if(empty($first_name)) {
+    $reg_errors->add( 'field', 'Nome: Campo obrigatório, favor preencher.' );
+}
+
+if(empty($last_name)) {
+    $reg_errors->add( 'field', 'Sobrenome: Campo obrigatório, favor preencher.' );
+}
+
+if(empty($cpf)) {
+    $reg_errors->add( 'field', 'CPF: Campo obrigatório, favor preencher.' );
+}
+
+if(empty($data_de_nascimento)) {
+    $reg_errors->add( 'field', 'Data de Nascimento: Campo obrigatório, favor preencher.' );
+}
+
+if(empty($celular_)) {
+    $reg_errors->add( 'field', 'Celular: Campo obrigatório, favor preencher.' );
+}
+
+if(empty($telefone_fixo)) {
+    $reg_errors->add( 'field', 'Telefone Fixo: Campo obrigatório, favor preencher.' );
+}
+
+if(empty($cep)) {
+    $reg_errors->add( 'field', 'CEP: Campo obrigatório, favor preencher.' );
+}
+
+if(empty($logradouro)) {
+    $reg_errors->add( 'field', 'Logradouro: Campo obrigatório, favor preencher.' );
+}
+
+if(empty($numero)) {
+    $reg_errors->add( 'field', 'Número: Campo obrigatório, favor preencher.' );
+}
+
+if(empty($bairro)) {
+    $reg_errors->add( 'field', 'Bairro: Campo obrigatório, favor preencher.' );
+}
+
+if(empty($cidade)) {
+    $reg_errors->add( 'field', 'Cidade: Campo obrigatório, favor preencher.' );
+}
+
+if(empty($estado)) {
+    $reg_errors->add( 'field', 'Estado / UF: Campo obrigatório, favor preencher.' );
+}
+
+if(empty($formacao_tipo)) {
+    $reg_errors->add( 'field', 'Formação: Campo obrigatório, favor preencher.' );
+}
+
+if(empty($areas_do_conhecimento)) {
+    $reg_errors->add( 'field', 'Áreas do conhecimento: Campo obrigatório, favor preencher.' );
+}
+
+if(empty($temas_de_interesse_)) {
+    $reg_errors->add( 'field', 'Temas de Interesse: Campo obrigatório, favor preencher.' );
+}
+
+if(empty($li_e_aceito_o_termo_de_adesao)) {
+    $reg_errors->add( 'field', 'Favor aceitar o termo de adesão.' );
+}
+
 
 if(!validaCPF($cpf)) {
     $reg_errors->add( 'cpf', 'Desculpe, o CPF preenchido é inválido.' );
@@ -79,12 +143,6 @@ if ( email_exists( $email ) ) {
     $reg_errors->add( 'email', 'Este e-mail já está sendo usado.' );
 }
 
-// if (! empty($website)) {
-//     if (! filter_var($website, FILTER_VALIDATE_URL)) {
-//         $reg_errors->add('website', 'Website is not a valid URL');
-//     }
-// }
-
 if ( is_wp_error( $reg_errors ) ) {
  
     foreach ( $reg_errors->get_error_messages() as $error ) {
@@ -99,5 +157,4 @@ if ( is_wp_error( $reg_errors ) ) {
     
     }
 }
-
 }

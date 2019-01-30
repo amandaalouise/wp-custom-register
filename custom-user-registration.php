@@ -2,11 +2,12 @@
 /*
   Plugin Name: Custom User Registration
   Description: Cadastro de usuário personalizado.
-  Version: 1.0
-  Author: Amanda Morais
+  Version: 1.1
+  Author: Amanda Louise Acosta Morais
  */
 
 $GLOBALS['paises'] = [
+  'Brasil',
   'África do Sul',
     'Albânia',
     'Alemanha',
@@ -29,7 +30,6 @@ $GLOBALS['paises'] = [
     'Benin',
     'Bermudas',
     'Botsuana',
-    'Brasil',
     'Brunei',
     'Bulgária',
     'Burkina Fasso',
@@ -180,6 +180,20 @@ $GLOBALS['paises'] = [
     'Zaire',
     'Zâmbia',
     'Zimbábue'
+];
+
+$GLOBALS['areas_conhecimento'] = [
+  'Ciências Exatas e da Terra', 
+  'Ciências Biológicas', 
+  'Engenharias', 
+  'Ciências da Saúde', 
+  'Ciências Agrárias', 
+  'Ciências Sociais Aplicadas', 
+  'Ciências Humanas',
+  'Linguística', 
+  'Letras e Artes', 
+  'Pós Graduação', 
+  'Outros'
 ];
 
 $GLOBALS['escolaridade'] = [
