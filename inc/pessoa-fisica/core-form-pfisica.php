@@ -1,72 +1,40 @@
 <?php
 
+function registration_form_fisica( 
+    $pessoaFisica) {
+    $instituicoes_query = get_users(array('role' => 'editor'));
 
+    $instituicoes = [];
+    foreach ($instituicoes_query as $i) {
+        array_push($instituicoes, $i->display_name);
+    }
+    array_unshift($instituicoes, 'Não Possui');
+
+
+    $paises = $GLOBALS['paises'];
+    $escolaridade = $GLOBALS['escolaridade'];
+    $areas_conhecimento = $GLOBALS['areas_conhecimento'];
+
+    include('templates/pessoa-fisica-form.php');
+}
+    
 function complete_registration_fisica() {
   global $reg_errors, 
-  $username, 
-  $password, 
-  $email, 
-  $first_name, 
-  $last_name,
-  $cpf,
-  $data_de_nascimento,
-  $pais_de_nascimento,
-  $celular_,
-  $telefone_fixo,
-  $url_lattes,
-  $pais_de_residencia,
-  $cep,
-  $logradouro,
-  $numero,
-  $bairro,
-  $cidade,
-  $estado,
-  $vinculo_institucional,
-  $departamento,
-  $cargofuncao,
-  $telefone,
-  $ramal,
-  $formacao_academica,
-  $formacao_tipo,
-  $areas_do_conhecimento,
-  $temas_de_interesse_,
-  $li_e_aceito_o_termo_de_adesao;
+  $pessoaFisica;
 
   if ( 1 > count( $reg_errors->get_error_messages() ) ) {
       $userdata = array(
-      'user_login'    =>   $username,
-      'user_email'    =>   $email,
-      'user_pass'     =>   $password,
-      'first_name'    =>   $first_name,
-      'last_name'     =>   $last_name,
+      'user_login'    =>   $pessoaFisica->username,
+      'user_email'    =>   $pessoaFisica->email,
+      'user_pass'     =>   $pessoaFisica->password,
+      'first_name'    =>   $pessoaFisica->first_name,
+      'last_name'     =>   $pessoaFisica->last_name,
       'role' => 'contributor'
       );
       $user = wp_insert_user( $userdata );
 
       save_usermeta($user,
-      $cpf,
-      $data_de_nascimento,
-      $pais_de_nascimento,
-      $celular_,
-      $telefone_fixo,
-      $url_lattes,
-      $pais_de_residencia,
-      $cep,
-      $logradouro,
-      $numero,
-      $bairro,
-      $cidade,
-      $estado,
-      $vinculo_institucional,
-      $departamento,
-      $cargofuncao,
-      $telefone,
-      $ramal,
-      $formacao_academica,
-      $formacao_tipo,
-      $areas_do_conhecimento,
-      $temas_de_interesse_,
-      $li_e_aceito_o_termo_de_adesao
+      $pessoaFisica
   );
       
   }
@@ -74,52 +42,30 @@ function complete_registration_fisica() {
 
 function save_usermeta(
   $user,
-  $cpf,
-  $data_de_nascimento,
-  $pais_de_nascimento,
-  $celular_,
-  $telefone_fixo,
-  $url_lattes,
-  $pais_de_residencia,
-  $cep,
-  $logradouro,
-  $numero,
-  $bairro,
-  $cidade,
-  $estado,
-  $vinculo_institucional,
-  $departamento,
-  $cargofuncao,
-  $telefone,
-  $ramal,
-  $formacao_academica,
-  $formacao_tipo,
-  $areas_do_conhecimento,
-  $temas_de_interesse_,
-  $li_e_aceito_o_termo_de_adesao
+  $pessoaFisica
 ) {
-    update_user_meta( absint($user), 'cpf', wp_kses_post($cpf));
-    update_user_meta( absint($user), 'data_de_nascimento', $data_de_nascimento);
-    update_user_meta( absint($user), 'pais_de_nascimento', $pais_de_nascimento);
-    update_user_meta( absint($user), 'celular_', $celular_);
-    update_user_meta( absint($user), 'telefone_fixo', $telefone_fixo);
-    update_user_meta( absint($user), 'url_lattes', $url_lattes);
-    update_user_meta( absint($user), 'pais_de_residencia', $pais_de_residencia);
-    update_user_meta( absint($user), 'cep', $cep);
-    update_user_meta( absint($user), 'logradouro', $logradouro);
-    update_user_meta( absint($user), 'numero', $numero);
-    update_user_meta( absint($user), 'bairro', $bairro);
-    update_user_meta( absint($user), 'cidade', $cidade);
-    update_user_meta( absint($user), 'estado', $estado);
-    update_user_meta( absint($user), 'vinculo_institucional', $vinculo_institucional);
-    update_user_meta( absint($user), 'departamento', $departamento);
-    update_user_meta( absint($user), 'cargofuncao', $cargofuncao);
-    update_user_meta( absint($user), 'ramal', $ramal);
-    update_user_meta( absint($user), 'formacao_academica', $formacao_academica);
-    update_user_meta( absint($user), 'formacao_tipo', $formacao_tipo);
-    update_user_meta( absint($user), 'areas_do_conhecimento', $areas_do_conhecimento);
-    update_user_meta( absint($user), 'temas_de_interesse_', $temas_de_interesse_);
-    update_user_meta( absint($user), 'li_e_aceito_o_termo_de_adesao', $li_e_aceito_o_termo_de_adesao);
+    update_user_meta( absint($user), 'cpf', wp_kses_post($pessoaFisica->cpf));
+    update_user_meta( absint($user), 'data_de_nascimento', $pessoaFisica->data_de_nascimento);
+    update_user_meta( absint($user), 'pais_de_nascimento', $pessoaFisica->pais_de_nascimento);
+    update_user_meta( absint($user), 'celular_', $pessoaFisica->celular_);
+    update_user_meta( absint($user), 'telefone_fixo', $pessoaFisica->telefone_fixo);
+    update_user_meta( absint($user), 'url_lattes', $pessoaFisica->url_lattes);
+    update_user_meta( absint($user), 'pais_de_residencia', $pessoaFisica->pais_de_residencia);
+    update_user_meta( absint($user), 'cep', $pessoaFisica->cep);
+    update_user_meta( absint($user), 'logradouro', $pessoaFisica->logradouro);
+    update_user_meta( absint($user), 'numero', $pessoaFisica->numero);
+    update_user_meta( absint($user), 'bairro', $pessoaFisica->bairro);
+    update_user_meta( absint($user), 'cidade', $pessoaFisica->cidade);
+    update_user_meta( absint($user), 'estado', $pessoaFisica->estado);
+    update_user_meta( absint($user), 'vinculo_institucional', $pessoaFisica->vinculo_institucional);
+    update_user_meta( absint($user), 'departamento', $pessoaFisica->departamento);
+    update_user_meta( absint($user), 'cargofuncao', $pessoaFisica->cargofuncao);
+    update_user_meta( absint($user), 'ramal', $pessoaFisica->ramal);
+    update_user_meta( absint($user), 'formacao_academica', $pessoaFisica->formacao_academica);
+    update_user_meta( absint($user), 'formacao_tipo', $pessoaFisica->formacao_tipo);
+    update_user_meta( absint($user), 'areas_do_conhecimento', $pessoaFisica->areas_do_conhecimento);
+    update_user_meta( absint($user), 'temas_de_interesse_', $pessoaFisica->temas_de_interesse_);
+    update_user_meta( absint($user), 'li_e_aceito_o_termo_de_adesao', $pessoaFisica->li_e_aceito_o_termo_de_adesao);
 
     echo '<div class="container">';
         echo '<div class="row">';
@@ -135,160 +81,83 @@ function save_usermeta(
 function custom_registration_function_fisica() {
 
   if ( isset($_POST['submit'] ) ) {
+
+    $pessoaFisica = new PessoaFisica();
+    $pessoaFisica->username = $_POST['username'];
+    $pessoaFisica->password = $_POST['password'];
+    $pessoaFisica->email = $_POST['email'];
+    $pessoaFisica->first_name = $_POST['fname'];
+    $pessoaFisica->last_name = $_POST['lname'];
+    $pessoaFisica->cpf = $_POST['cpf'];
+    $pessoaFisica->data_de_nascimento = $_POST['data_de_nascimento'];
+    $pessoaFisica->pais_de_nascimento = $_POST['pais_de_nascimento'];
+    $pessoaFisica->celular_ = $_POST['celular_'];
+    $pessoaFisica->telefone_fixo = $_POST['telefone_fixo'];
+    $pessoaFisica->url_lattes = $_POST['url_lattes'];
+    $pessoaFisica->pais_de_residencia = $_POST['pais_de_residencia'];
+    $pessoaFisica->cep = $_POST['cep'];
+    $pessoaFisica->logradouro = $_POST['logradouro'];
+    $pessoaFisica->numero = $_POST['numero'];
+    $pessoaFisica->bairro = $_POST['bairro'];
+    $pessoaFisica->cidade = $_POST['cidade'];
+    $pessoaFisica->estado = $_POST['estado'];
+    $pessoaFisica->vinculo_institucional = $_POST['vinculo_institucional'];
+    $pessoaFisica->departamento = $_POST['departamento'];
+    $pessoaFisica->cargofuncao = $_POST['cargofuncao'];
+    $pessoaFisica->telefone = $_POST['telefone'];
+    $pessoaFisica->ramal = $_POST['ramal'];
+    $pessoaFisica->formacao_academica = $_POST['formacao_academica'];
+    $pessoaFisica->formacao_tipo = $_POST['formacao_tipo'];
+    $pessoaFisica->areas_do_conhecimento = $_POST['areas_do_conhecimento'];
+    $pessoaFisica->temas_de_interesse_ = $_POST['temas_de_interesse_'];
+    $pessoaFisica->li_e_aceito_o_termo_de_adesao = $_POST['li_e_aceito_o_termo_de_adesao'];
+    
       registration_validation_fisica (
-      $_POST['username'],
-      $_POST['password'],
-      $_POST['email'],
-      $_POST['fname'],
-      $_POST['lname'],
-      $_POST['cpf'],
-      $_POST['data_de_nascimento'],
-      $_POST['pais_de_nascimento'],
-      $_POST['celular_'],
-      $_POST['telefone_fixo'],
-      $_POST['url_lattes'],
-      $_POST['pais_de_residencia'],
-      $_POST['cep'],
-      $_POST['logradouro'],
-      $_POST['numero'],
-      $_POST['bairro'],
-      $_POST['cidade'],
-      $_POST['estado'],
-      $_POST['vinculo_institucional'],
-      $_POST['departamento'],
-      $_POST['cargofuncao'],
-      $_POST['telefone'],
-      $_POST['ramal'],
-      $_POST['formacao_academica'],
-      $_POST['formacao_tipo'],
-      $_POST['areas_do_conhecimento'],
-      $_POST['temas_de_interesse_'],
-      $_POST['li_e_aceito_o_termo_de_adesao']
+        $pessoaFisica
       );
        
       // sanitize user form input
-      global $username,
-      $password,
-      $email,
-      $first_name,
-      $last_name,
-      $cpf,
-      $data_de_nascimento,
-      $pais_de_nascimento,
-      $celular_,
-      $telefone_fixo,
-      $url_lattes,
-      $pais_de_residencia,
-      $cep,
-      $logradouro,
-      $numero,
-      $bairro,
-      $cidade,
-      $estado,
-      $vinculo_institucional,
-      $departamento,
-      $cargofuncao,
-      $telefone,
-      $ramal,
-      $formacao_academica,
-      $formacao_tipo,
-      $areas_do_conhecimento,
-      $temas_de_interesse_,
-      $li_e_aceito_o_termo_de_adesao;
+      global $pessoaFisica;
 
-      $username = sanitize_user( $_POST['username'] );
-      $password = esc_attr( $_POST['password'] );
-      $email = sanitize_email( $_POST['email'] );
-      $first_name = sanitize_text_field( $_POST['fname'] );
-      $last_name = sanitize_text_field( $_POST['lname'] );
-      $cpf = sanitize_text_field( $_POST['cpf']);
-      $data_de_nascimento = $_POST['data_de_nascimento'];
-      $pais_de_nascimento = sanitize_text_field( $_POST['pais_de_nascimento']);
-      $celular_ = sanitize_text_field( $_POST['celular_']);
-      $telefone_fixo = sanitize_text_field( $_POST['telefone_fixo']);
-      $url_lattes = sanitize_text_field( $_POST['url_lattes']);
-      $pais_de_residencia = sanitize_text_field( $_POST['pais_de_residencia']);
-      $cep = sanitize_text_field( $_POST['cep']);
-      $logradouro = sanitize_text_field( $_POST['logradouro']);
-      $numero = sanitize_text_field( $_POST['numero']);
-      $bairro = sanitize_text_field( $_POST['bairro']);
-      $cidade = sanitize_text_field( $_POST['cidade']);
-      $estado = sanitize_text_field( $_POST['estado']);
-      $vinculo_institucional = sanitize_text_field( $_POST['vinculo_institucional']);
-      $departamento = sanitize_text_field( $_POST['departamento']);
-      $cargofuncao = sanitize_text_field( $_POST['cargofuncao']);
-      $telefone = sanitize_text_field( $_POST['telefone']);
-      $ramal = sanitize_text_field( $_POST['ramal']);
-      $formacao_academica = sanitize_text_field( $_POST['formacao_academica']);
-      $formacao_tipo = sanitize_text_field( $_POST['formacao_tipo']);
-      $areas_do_conhecimento = $_POST['areas_do_conhecimento'];
-      $temas_de_interesse_ = $_POST['temas_de_interesse_'];
-      $li_e_aceito_o_termo_de_adesao = $_POST['li_e_aceito_o_termo_de_adesao'];
+      $pessoaFisica->username = sanitize_user( $_POST['username'] );
+      $pessoaFisica->password = esc_attr( $_POST['password'] );
+      $pessoaFisica->email = sanitize_email( $_POST['email'] );
+      $pessoaFisica->first_name = sanitize_text_field( $_POST['fname'] );
+      $pessoaFisica->last_name = sanitize_text_field( $_POST['lname'] );
+      $pessoaFisica->cpf = sanitize_text_field( $_POST['cpf']);
+      $pessoaFisica->data_de_nascimento = $_POST['data_de_nascimento'];
+      $pessoaFisica->pais_de_nascimento = sanitize_text_field( $_POST['pais_de_nascimento']);
+      $pessoaFisica->celular_ = sanitize_text_field( $_POST['celular_']);
+      $pessoaFisica->telefone_fixo = sanitize_text_field( $_POST['telefone_fixo']);
+      $pessoaFisica->url_lattes = sanitize_text_field( $_POST['url_lattes']);
+      $pessoaFisica->pais_de_residencia = sanitize_text_field( $_POST['pais_de_residencia']);
+      $pessoaFisica->cep = sanitize_text_field( $_POST['cep']);
+      $pessoaFisica->logradouro = sanitize_text_field( $_POST['logradouro']);
+      $pessoaFisica->numero = sanitize_text_field( $_POST['numero']);
+      $pessoaFisica->bairro = sanitize_text_field( $_POST['bairro']);
+      $pessoaFisica->cidade = sanitize_text_field( $_POST['cidade']);
+      $pessoaFisica->estado = sanitize_text_field( $_POST['estado']);
+      $pessoaFisica->vinculo_institucional = sanitize_text_field( $_POST['vinculo_institucional']);
+      $pessoaFisica->departamento = sanitize_text_field( $_POST['departamento']);
+      $pessoaFisica->cargofuncao = sanitize_text_field( $_POST['cargofuncao']);
+      $pessoaFisica->telefone = sanitize_text_field( $_POST['telefone']);
+      $pessoaFisica->ramal = sanitize_text_field( $_POST['ramal']);
+      $pessoaFisica->formacao_academica = sanitize_text_field( $_POST['formacao_academica']);
+      $pessoaFisica->formacao_tipo = sanitize_text_field( $_POST['formacao_tipo']);
+      $pessoaFisica->areas_do_conhecimento = $_POST['areas_do_conhecimento'];
+      $pessoaFisica->temas_de_interesse_ = $_POST['temas_de_interesse_'];
+      $pessoaFisica->li_e_aceito_o_termo_de_adesao = $_POST['li_e_aceito_o_termo_de_adesao'];
       
 
       // call @function complete_registration_fisica to create the user
       // only when no WP_error is found
       complete_registration_fisica(
-      $username,
-      $password,
-      $email,
-      $first_name,
-      $last_name,
-      $cpf,
-      $data_de_nascimento,
-      $pais_de_nascimento,
-      $celular_,
-      $telefone_fixo,
-      $url_lattes,
-      $pais_de_residencia,
-      $cep,
-      $logradouro,
-      $numero,
-      $bairro,
-      $cidade,
-      $estado,
-      $vinculo_institucional,
-      $departamento,
-      $cargofuncao,
-      $telefone,
-      $ramal,
-      $formacao_academica,
-      $formacao_tipo,
-      $areas_do_conhecimento,
-      $temas_de_interesse_,
-      $li_e_aceito_o_termo_de_adesao
+      $pessoaFisica
       );
   }
 
   registration_form_fisica(
-      $username,
-      $password,
-      $email,
-      $first_name,
-      $last_name,
-      $cpf,
-      $data_de_nascimento,
-      $pais_de_nascimento,
-      $celular_,
-      $telefone_fixo,
-      $url_lattes,
-      $pais_de_residencia,
-      $cep,
-      $logradouro,
-      $numero,
-      $bairro,
-      $cidade,
-      $estado,
-      $vinculo_institucional,
-      $departamento,
-      $cargofuncao,
-      $telefone,
-      $ramal,
-      $formacao_academica,
-      $formacao_tipo,
-      $areas_do_conhecimento,
-      $temas_de_interesse_,
-      $li_e_aceito_o_termo_de_adesao
+      $pessoaFisica
       );
 }
 

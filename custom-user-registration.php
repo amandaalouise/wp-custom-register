@@ -241,9 +241,9 @@ $GLOBALS['ambientes'] = [
   'Outros'
 ];
 
-//Funções cadastro de pessoa física
-require_once plugin_dir_path(__FILE__). '/inc/pessoa-fisica/templates/form-pfisica-template.php';
+require_once plugin_dir_path(__FILE__). '/classes/pessoa-fisica.php';
 
+//Funções cadastro de pessoa física
 require_once plugin_dir_path(__FILE__). '/inc/pessoa-fisica/validators/form-validation.php';
 
 require_once plugin_dir_path(__FILE__). '/inc/pessoa-fisica/core-form-pfisica.php';
