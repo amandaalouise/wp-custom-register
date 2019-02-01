@@ -241,7 +241,9 @@ $GLOBALS['ambientes'] = [
   'Outros'
 ];
 
+//Classes
 require_once plugin_dir_path(__FILE__). '/classes/pessoa-fisica.php';
+require_once plugin_dir_path(__FILE__). '/classes/pessoa-juridica.php';
 
 //Funções cadastro de pessoa física
 require_once plugin_dir_path(__FILE__). '/inc/pessoa-fisica/validators/form-validation.php';
@@ -251,8 +253,6 @@ require_once plugin_dir_path(__FILE__). '/inc/pessoa-fisica/core-form-pfisica.ph
 require_once plugin_dir_path(__FILE__). '/inc/pessoa-fisica/validators/cpf-validation.php';
 
 //Funções cadastro de pessoa Juridica
-require_once plugin_dir_path(__FILE__). '/inc/pessoa-juridica/templates/form-pjuridica-template.php';
-
 require_once plugin_dir_path(__FILE__). '/inc/pessoa-juridica/validators/form-validation.php';
 
 require_once plugin_dir_path(__FILE__). '/inc/pessoa-juridica/core-form-pjuridica.php';

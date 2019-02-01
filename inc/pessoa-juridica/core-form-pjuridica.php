@@ -1,119 +1,61 @@
 <?php
 
 
+function registration_form_juridica( 
+    $pessoaJuridica
+    ) {
+
+    include('templates/pessoa-juridica-form.php');
+}
+
+
 function complete_registration_juridica() {
   global $reg_errors,
-  $username,
-  $email,
-  $password,
-  $first_name,
-  $user_url,
-  $responsavel_nome_completo_do_responsavel,
-  $responsavel_email_do_responsavel,
-  $responsavel_celular_do_responsavel,
-  $responsavel_telefone_fixo_do_responsavel,
-  $responsavel_substituto_nome_completo_do_responsavel,
-  $responsavel_substituto_email_do_responsavel,
-  $responsavel_substituto_celular_do_responsavel,
-  $responsavel_substituto_telefone_fixo_do_responsavel,
-  $cnpj,
-  $cep,
-  $logradouro,
-  $numero,
-  $bairro,
-  $cidade,
-  $estado,
-  $tipo_de_instituicao,
-  $tamanho_da_empresa,
-  $perfil_institucional,
-  $possui_ambientes_ou_grupos_voltados_a_pesquisa_e_inovacao,
-  $temas_de_interesse_,
-  $li_e_aceito_o_termo_de_adesao;
+  $pessoaJuridica;
 
   if ( 1 > count( $reg_errors->get_error_messages() ) ) {
       $userdata = array(
-      'user_login'    =>   $username,
-      'user_email'    =>   $email,
-      'user_pass'     =>   $password,
-      'first_name'    =>   $first_name,
-      'user_url' => $user_url,
+      'user_login'    =>   $pessoaJuridica->username,
+      'user_email'    =>   $pessoaJuridica->email,
+      'user_pass'     =>   $pessoaJuridica->password,
+      'first_name'    =>   $pessoaJuridica->first_name,
+      'user_url' => $pessoaJuridica->user_url,
       'role' => 'editor'
       );
       $user = wp_insert_user( $userdata );
 
       save_usermeta_juridica(
         $user,
-        $responsavel_nome_completo_do_responsavel,
-        $responsavel_email_do_responsavel,
-        $responsavel_celular_do_responsavel,
-        $responsavel_telefone_fixo_do_responsavel,
-        $responsavel_substituto_nome_completo_do_responsavel,
-        $responsavel_substituto_email_do_responsavel,
-        $responsavel_substituto_celular_do_responsavel,
-        $responsavel_substituto_telefone_fixo_do_responsavel,
-        $cnpj,
-        $cep,
-        $logradouro,
-        $numero,
-        $bairro,
-        $cidade,
-        $estado,
-        $tipo_de_instituicao,
-        $tamanho_da_empresa,
-        $perfil_institucional,
-        $possui_ambientes_ou_grupos_voltados_a_pesquisa_e_inovacao,
-        $temas_de_interesse_,
-        $li_e_aceito_o_termo_de_adesao
-  );      
+        $pessoaJuridica);      
   }
 }
 
 function save_usermeta_juridica(
     $user,
-    $responsavel_nome_completo_do_responsavel,
-    $responsavel_email_do_responsavel,
-    $responsavel_celular_do_responsavel,
-    $responsavel_telefone_fixo_do_responsavel,
-    $responsavel_substituto_nome_completo_do_responsavel,
-    $responsavel_substituto_email_do_responsavel,
-    $responsavel_substituto_celular_do_responsavel,
-    $responsavel_substituto_telefone_fixo_do_responsavel,
-    $cnpj,
-    $cep,
-    $logradouro,
-    $numero,
-    $bairro,
-    $cidade,
-    $estado,
-    $tipo_de_instituicao,
-    $tamanho_da_empresa,
-    $perfil_institucional,
-    $possui_ambientes_ou_grupos_voltados_a_pesquisa_e_inovacao,
-    $temas_de_interesse_,
-    $li_e_aceito_o_termo_de_adesao
+    $pessoaJuridica
 ) {
-    update_user_meta( absint($user), 'responsavel_nome_completo_do_responsavel', wp_kses_post($responsavel_nome_completo_do_responsavel));
-    update_user_meta( absint($user), 'responsavel_email_do_responsavel', $responsavel_email_do_responsavel);
-    update_user_meta( absint($user), 'responsavel_celular_do_responsavel', $responsavel_celular_do_responsavel);
-    update_user_meta( absint($user), 'responsavel_telefone_fixo_do_responsavel', $responsavel_telefone_fixo_do_responsavel);
-    update_user_meta( absint($user), 'responsavel_substituto_nome_completo_do_responsavel', $responsavel_substituto_nome_completo_do_responsavel);
-    update_user_meta( absint($user), 'responsavel_substituto_email_do_responsavel', $responsavel_substituto_email_do_responsavel);
-    update_user_meta( absint($user), 'responsavel_substituto_celular_do_responsavel', $responsavel_substituto_celular_do_responsavel);
-    update_user_meta( absint($user), 'responsavel_substituto_telefone_fixo_do_responsavel', $responsavel_substituto_telefone_fixo_do_responsavel);
+    update_user_meta( absint($user), 'responsavel_nome_completo_do_responsavel', wp_kses_post($pessoaJuridica->responsavel_nome_completo_do_responsavel));
+    update_user_meta( absint($user), 'responsavel_email_do_responsavel', $pessoaJuridica->responsavel_email_do_responsavel);
+    update_user_meta( absint($user), 'responsavel_celular_do_responsavel', $pessoaJuridica->responsavel_celular_do_responsavel);
+    update_user_meta( absint($user), 'responsavel_telefone_fixo_do_responsavel', $pessoaJuridica->responsavel_telefone_fixo_do_responsavel);
+    update_user_meta( absint($user), 'responsavel_substituto_nome_completo_do_responsavel', $pessoaJuridica->responsavel_substituto_nome_completo_do_responsavel);
+    update_user_meta( absint($user), 'responsavel_substituto_email_do_responsavel', $pessoaJuridica->responsavel_substituto_email_do_responsavel);
+    update_user_meta( absint($user), 'responsavel_substituto_celular_do_responsavel', $pessoaJuridica->responsavel_substituto_celular_do_responsavel);
+    update_user_meta( absint($user), 'responsavel_substituto_telefone_fixo_do_responsavel', $pessoaJuridica->responsavel_substituto_telefone_fixo_do_responsavel);
     update_user_meta( absint($user), 'nome_fantasia', get_userdata($user->id)->first_name);
-    update_user_meta( absint($user), 'cnpj', $cnpj);
-    update_user_meta( absint($user), 'cep', $cep);
-    update_user_meta( absint($user), 'logradouro', $logradouro);
-    update_user_meta( absint($user), 'numero', $numero);
-    update_user_meta( absint($user), 'bairro', $bairro);
-    update_user_meta( absint($user), 'cidade', $cidade);
-    update_user_meta( absint($user), 'estado', $estado);
-    update_user_meta( absint($user), 'tipo_de_instituicao', $tipo_de_instituicao);
-    update_user_meta( absint($user), 'tamanho_da_empresa', $tamanho_da_empresa);
-    update_user_meta( absint($user), 'perfil_institucional', $perfil_institucional);
-    update_user_meta( absint($user), 'possui_ambientes_ou_grupos_voltados_a_pesquisa_e_inovacao', $possui_ambientes_ou_grupos_voltados_a_pesquisa_e_inovacao);
-    update_user_meta( absint($user), 'temas_de_interesse_', $temas_de_interesse_);
-    update_user_meta( absint($user), 'li_e_aceito_o_termo_de_adesao', $li_e_aceito_o_termo_de_adesao);
+    update_user_meta( absint($user), 'cnpj', $pessoaJuridica->cnpj);
+    update_user_meta( absint($user), 'cep', $pessoaJuridica->cep);
+    update_user_meta( absint($user), 'logradouro', $pessoaJuridica->logradouro);
+    update_user_meta( absint($user), 'numero', $pessoaJuridica->numero);
+    update_user_meta( absint($user), 'bairro', $pessoaJuridica->bairro);
+    update_user_meta( absint($user), 'cidade', $pessoaJuridica->cidade);
+    update_user_meta( absint($user), 'estado', $pessoaJuridica->estado);
+    update_user_meta( absint($user), 'tipo_de_instituicao', $pessoaJuridica->tipo_de_instituicao);
+    update_user_meta( absint($user), 'tamanho_da_empresa', $pessoaJuridica->tamanho_da_empresa);
+    update_user_meta( absint($user), 'perfil_institucional', $pessoaJuridica->perfil_institucional);
+    update_user_meta( absint($user), 'possui_ambientes_ou_grupos_voltados_a_pesquisa_e_inovacao', $pessoaJuridica->possui_ambientes_ou_grupos_voltados_a_pesquisa_e_inovacao);
+    update_user_meta( absint($user), 'temas_de_interesse_', $pessoaJuridica->temas_de_interesse_);
+    update_user_meta( absint($user), 'li_e_aceito_o_termo_de_adesao', $pessoaJuridica->li_e_aceito_o_termo_de_adesao);
 
     echo '<div class="container">';
         echo '<div class="row">';
@@ -128,152 +70,81 @@ function save_usermeta_juridica(
 
 function custom_registration_function_juridica() {
 
+    $pessoaJuridica = new PessoaJuridica();
+
+    $pessoaJuridica->username = $_POST['username'];
+    $pessoaJuridica->email = $_POST['email'];
+    $pessoaJuridica->password = $_POST['password'];
+    $pessoaJuridica->first_name = $_POST['first_name'];
+    $pessoaJuridica->user_url = $_POST['user_url'];
+    $pessoaJuridica->responsavel_nome_completo_do_responsavel = $_POST['responsavel_nome_completo_do_responsavel'];
+    $pessoaJuridica->responsavel_email_do_responsavel = $_POST['responsavel_email_do_responsavel'];
+    $pessoaJuridica->responsavel_celular_do_responsavel = $_POST['responsavel_celular_do_responsavel'];
+    $pessoaJuridica->responsavel_telefone_fixo_do_responsavel = $_POST['responsavel_telefone_fixo_do_responsavel'];
+    $pessoaJuridica->responsavel_substituto_nome_completo_do_responsavel = $_POST['responsavel_substituto_nome_completo_do_responsavel'];
+    $pessoaJuridica->responsavel_substituto_email_do_responsavel = $_POST['responsavel_substituto_email_do_responsavel'];
+    $pessoaJuridica->responsavel_substituto_celular_do_responsavel = $_POST['responsavel_substituto_celular_do_responsavel'];
+    $pessoaJuridica->responsavel_substituto_telefone_fixo_do_responsavel = $_POST['responsavel_substituto_telefone_fixo_do_responsavel'];
+    $pessoaJuridica->cnpj = $_POST['cnpj'];
+    $pessoaJuridica->cep = $_POST['cep'];
+    $pessoaJuridica->logradouro = $_POST['logradouro'];
+    $pessoaJuridica->numero = $_POST['numero'];
+    $pessoaJuridica->bairro = $_POST['bairro'];
+    $pessoaJuridica->cidade = $_POST['cidade'];
+    $pessoaJuridica->estado = $_POST['estado'];
+    $pessoaJuridica->tipo_de_instituicao = $_POST['tipo_de_instituicao'];
+    $pessoaJuridica->tamanho_da_empresa = $_POST['tamanho_da_empresa'];
+    $pessoaJuridica->perfil_institucional = $_POST['perfil_institucional'];
+    $pessoaJuridica->possui_ambientes_ou_grupos_voltados_a_pesquisa_e_inovacao = $_POST['possui_ambientes_ou_grupos_voltados_a_pesquisa_e_inovacao'];
+    $pessoaJuridica->temas_de_interesse_ = $_POST['temas_de_interesse_'];
+    $pessoaJuridica->li_e_aceito_o_termo_de_adesao = $_POST['li_e_aceito_o_termo_de_adesao'];
+        
+
   if ( isset($_POST['submit'] ) ) {
       registration_validation_juridica (
-        $_POST['username'],
-        $_POST['email'],
-        $_POST['password'],
-        $_POST['first_name'],
-        $_POST['user_url'],
-        $_POST['responsavel_nome_completo_do_responsavel'],
-        $_POST['responsavel_email_do_responsavel'],
-        $_POST['responsavel_celular_do_responsavel'],
-        $_POST['responsavel_telefone_fixo_do_responsavel'],
-        $_POST['responsavel_substituto_nome_completo_do_responsavel'],
-        $_POST['responsavel_substituto_email_do_responsavel'],
-        $_POST['responsavel_substituto_celular_do_responsavel'],
-        $_POST['responsavel_substituto_telefone_fixo_do_responsavel'],
-        $_POST['cnpj'],
-        $_POST['cep'],
-        $_POST['logradouro'],
-        $_POST['numero'],
-        $_POST['bairro'],
-        $_POST['cidade'],
-        $_POST['estado'],
-        $_POST['tipo_de_instituicao'],
-        $_POST['tamanho_da_empresa'],
-        $_POST['perfil_institucional'],
-        $_POST['possui_ambientes_ou_grupos_voltados_a_pesquisa_e_inovacao'],
-        $_POST['temas_de_interesse_'],
-        $_POST['li_e_aceito_o_termo_de_adesao']
+        $pessoaJuridica
       );
        
       // sanitize user form input
-      global $username,
-      $email,
-      $password,
-      $first_name,
-      $user_url,
-      $responsavel_nome_completo_do_responsavel,
-      $responsavel_email_do_responsavel,
-      $responsavel_celular_do_responsavel,
-      $responsavel_telefone_fixo_do_responsavel,
-      $responsavel_substituto_nome_completo_do_responsavel,
-      $responsavel_substituto_email_do_responsavel,
-      $responsavel_substituto_celular_do_responsavel,
-      $responsavel_substituto_telefone_fixo_do_responsavel,
-      $cnpj,
-      $cep,
-      $logradouro,
-      $numero,
-      $bairro,
-      $cidade,
-      $estado,
-      $tipo_de_instituicao,
-      $tamanho_da_empresa,
-      $perfil_institucional,
-      $possui_ambientes_ou_grupos_voltados_a_pesquisa_e_inovacao,
-      $temas_de_interesse_,
-      $li_e_aceito_o_termo_de_adesao;
+      global $pessoaJuridica;
 
-      $username = sanitize_user( $_POST['username'] );
-      $email = sanitize_email( $_POST['email'] );
-      $password = esc_attr( $_POST['password'] );
-      $first_name = sanitize_text_field( $_POST['first_name'] );
-      $user_url = sanitize_text_field( $_POST['user_url']);
-      $responsavel_nome_completo_do_responsavel = $_POST['responsavel_nome_completo_do_responsavel'];
-      $responsavel_email_do_responsavel = $_POST['responsavel_email_do_responsavel'];
-      $responsavel_celular_do_responsavel = $_POST['responsavel_celular_do_responsavel'];
-      $responsavel_telefone_fixo_do_responsavel = $_POST['responsavel_telefone_fixo_do_responsavel'];
-      $responsavel_substituto_nome_completo_do_responsavel = $_POST['responsavel_substituto_nome_completo_do_responsavel'];
-      $responsavel_substituto_email_do_responsavel = $_POST['responsavel_substituto_email_do_responsavel'];
-      $responsavel_substituto_celular_do_responsavel = $_POST['responsavel_substituto_celular_do_responsavel'];
-      $responsavel_substituto_telefone_fixo_do_responsavel = $_POST['responsavel_substituto_telefone_fixo_do_responsavel'];
-      $cnpj = $_POST['cnpj'];
-      $cep = $_POST['cep'];
-      $logradouro = $_POST['logradouro'];
-      $numero = $_POST['numero'];
-      $bairro = $_POST['bairro'];
-      $cidade = $_POST['cidade'];
-      $estado = $_POST['estado'];
-      $tipo_de_instituicao = $_POST['tipo_de_instituicao'];
-      $tamanho_da_empresa = $_POST['tamanho_da_empresa'];
-      $perfil_institucional = $_POST['perfil_institucional'];
-      $possui_ambientes_ou_grupos_voltados_a_pesquisa_e_inovacao = $_POST['possui_ambientes_ou_grupos_voltados_a_pesquisa_e_inovacao'];
-      $temas_de_interesse_ = $_POST['temas_de_interesse_'];
-      $li_e_aceito_o_termo_de_adesao = $_POST['li_e_aceito_o_termo_de_adesao'];
-      
+      $pessoaJuridica->username = sanitize_user( $_POST['username'] );
+      $pessoaJuridica->email = sanitize_email( $_POST['email'] );
+      $pessoaJuridica->password = esc_attr( $_POST['password'] );
+      $pessoaJuridica->first_name = sanitize_text_field( $_POST['first_name'] );
+      $pessoaJuridica->user_url = sanitize_text_field( $_POST['user_url']);
+      $pessoaJuridica->responsavel_nome_completo_do_responsavel = $_POST['responsavel_nome_completo_do_responsavel'];
+      $pessoaJuridica->responsavel_email_do_responsavel = $_POST['responsavel_email_do_responsavel'];
+      $pessoaJuridica->responsavel_celular_do_responsavel = $_POST['responsavel_celular_do_responsavel'];
+      $pessoaJuridica->responsavel_telefone_fixo_do_responsavel = $_POST['responsavel_telefone_fixo_do_responsavel'];
+      $pessoaJuridica->responsavel_substituto_nome_completo_do_responsavel = $_POST['responsavel_substituto_nome_completo_do_responsavel'];
+      $pessoaJuridica->responsavel_substituto_email_do_responsavel = $_POST['responsavel_substituto_email_do_responsavel'];
+      $pessoaJuridica->responsavel_substituto_celular_do_responsavel = $_POST['responsavel_substituto_celular_do_responsavel'];
+      $pessoaJuridica->responsavel_substituto_telefone_fixo_do_responsavel = $_POST['responsavel_substituto_telefone_fixo_do_responsavel'];
+      $pessoaJuridica->cnpj = $_POST['cnpj'];
+      $pessoaJuridica->cep = $_POST['cep'];
+      $pessoaJuridica->logradouro = $_POST['logradouro'];
+      $pessoaJuridica->numero = $_POST['numero'];
+      $pessoaJuridica->bairro = $_POST['bairro'];
+      $pessoaJuridica->cidade = $_POST['cidade'];
+      $pessoaJuridica->estado = $_POST['estado'];
+      $pessoaJuridica->tipo_de_instituicao = $_POST['tipo_de_instituicao'];
+      $pessoaJuridica->tamanho_da_empresa = $_POST['tamanho_da_empresa'];
+      $pessoaJuridica->perfil_institucional = $_POST['perfil_institucional'];
+      $pessoaJuridica->possui_ambientes_ou_grupos_voltados_a_pesquisa_e_inovacao = $_POST['possui_ambientes_ou_grupos_voltados_a_pesquisa_e_inovacao'];
+      $pessoaJuridica->temas_de_interesse_ = $_POST['temas_de_interesse_'];
+      $pessoaJuridica->li_e_aceito_o_termo_de_adesao = $_POST['li_e_aceito_o_termo_de_adesao'];      
 
       // call @function complete_registration_juridica to create the user
       // only when no WP_error is found
       complete_registration_juridica(
-      $username,
-      $email,
-      $password,
-      $first_name,
-      $user_url,
-      $responsavel_nome_completo_do_responsavel,
-      $responsavel_email_do_responsavel,
-      $responsavel_celular_do_responsavel,
-      $responsavel_telefone_fixo_do_responsavel,
-      $responsavel_substituto_nome_completo_do_responsavel,
-      $responsavel_substituto_email_do_responsavel,
-      $responsavel_substituto_celular_do_responsavel,
-      $responsavel_substituto_telefone_fixo_do_responsavel,
-      $cnpj,
-      $cep,
-      $logradouro,
-      $numero,
-      $bairro,
-      $cidade,
-      $estado,
-      $tipo_de_instituicao,
-      $tamanho_da_empresa,
-      $perfil_institucional,
-      $possui_ambientes_ou_grupos_voltados_a_pesquisa_e_inovacao,
-      $temas_de_interesse_,
-      $li_e_aceito_o_termo_de_adesao
+      $pessoaJuridica
       );
   }
 
   registration_form_juridica(
-    $username,
-    $email,
-    $password,
-    $first_name,
-    $user_url,
-    $responsavel_nome_completo_do_responsavel,
-    $responsavel_email_do_responsavel,
-    $responsavel_celular_do_responsavel,
-    $responsavel_telefone_fixo_do_responsavel,
-    $responsavel_substituto_nome_completo_do_responsavel,
-    $responsavel_substituto_email_do_responsavel,
-    $responsavel_substituto_celular_do_responsavel,
-    $responsavel_substituto_telefone_fixo_do_responsavel,
-    $cnpj,
-    $cep,
-    $logradouro,
-    $numero,
-    $bairro,
-    $cidade,
-    $estado,
-    $tipo_de_instituicao,
-    $tamanho_da_empresa,
-    $perfil_institucional,
-    $possui_ambientes_ou_grupos_voltados_a_pesquisa_e_inovacao,
-    $temas_de_interesse_,
-    $li_e_aceito_o_termo_de_adesao
-      );
+    $pessoaJuridica
+    );
 }
 
 // Register a new shortcode: [cr_custom_registration]
