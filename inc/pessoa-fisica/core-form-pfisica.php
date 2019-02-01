@@ -44,6 +44,10 @@ function save_usermeta(
   $user,
   $pessoaFisica
 ) {
+    /**
+     * 
+     * Salva user meta customizado de pessoa física
+     */
     update_user_meta( absint($user), 'cpf', wp_kses_post($pessoaFisica->cpf));
     update_user_meta( absint($user), 'data_de_nascimento', $pessoaFisica->data_de_nascimento);
     update_user_meta( absint($user), 'pais_de_nascimento', $pessoaFisica->pais_de_nascimento);

@@ -30,6 +30,10 @@ function complete_registration_juridica() {
   }
 }
 
+/**
+ * 
+ * Salva user meta customizado de pessoa juridica
+ */
 function save_usermeta_juridica(
     $user,
     $pessoaJuridica
